@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  janus-proxy:
+    image: registry.gitlab.saver.jp/saver/container/janus-cloud/janus-proxy
+    build: janus-proxy
+    ports:
+      - 8288:8288
+      - 80:80
+  janus:
+    image: registry.gitlab.saver.jp/saver/container/janus-cloud/janus-gateway
+    build: janus-gateway
+    ports:
+      - 8188:8188
+    depends_on:
+      - signaling

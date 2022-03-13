@@ -13,4 +13,4 @@ services:
     ports:
       - 8188:8188
     depends_on:
-      - signaling
+      - janus-proxy

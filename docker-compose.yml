@@ -12,5 +12,3 @@ services:
     build: janus-gateway
     ports:
       - 8188:8188
-    depends_on:
-      - janus-proxy

@@ -32,6 +32,8 @@ $ docker-compose up -d
 If you want your own configuration.  
 Mount config like this.
 
+You can also add janus options in `command`.
+
 ```yaml
 version: "3"
 
@@ -45,6 +47,7 @@ services:
       - ./conf/janus-proxy.plugin.videoroom.yml:/opt/janus-cloud/conf/janus-proxy.plugin.videoroom.yml
   media:
     image: registry.gitlab.saver.jp/saver/container/janus-cloud/janus-gateway
+    command: ['-d', '7']
     ports:
       - 8188:8188
     depends_on:

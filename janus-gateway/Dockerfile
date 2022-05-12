@@ -1,13 +1,12 @@
-FROM registry.gitlab.saver.jp/saver/container/janus-gateway:0.10.7
+FROM saverops/janus-gateway:0.10.7
 
-# Install janus-cloud
-RUN git clone https://github.com/OpenSight/janus-cloud.git /opt/janus-cloud && \
-    pip3 install /opt/janus-cloud
+USER root
+
+COPY --from=saverops/janus-cloud /opt/janus-cloud /opt/janus-cloud
 COPY janus-sentinel.yml /opt/janus-cloud/conf/janus-sentinel.yml
-ENV PATH $PATH:/opt/janus/bin
+RUN pip3 install /opt/janus-cloud
 
-# Copy entrypoint.sh
-COPY entrypoint.sh /usr/local/bin
-RUN chmod 755 /usr/local/bin/entrypoint.sh
+USER janus
 
-ENTRYPOINT ["entrypoint.sh"]
+EXPOSE 8188
+ENTRYPOINT janus-sentinel & /opt/janus/bin/janus

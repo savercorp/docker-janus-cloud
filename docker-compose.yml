@@ -6,12 +6,12 @@ services:
     ports:
       - 80:80
   janus-proxy:
-    image: registry.gitlab.saver.jp/saver/container/janus-cloud/janus-proxy
-    build: janus-proxy
+    image: saverops/janus-cloud
+    build: janus-cloud
+    command: janus-proxy
     ports:
       - 8288:8288
   janus:
-    image: registry.gitlab.saver.jp/saver/container/janus-cloud/janus-gateway
     build: janus-gateway
     ports:
       - 8188:8188

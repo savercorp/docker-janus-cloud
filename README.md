@@ -1,6 +1,6 @@
-# janus-cloud
+# docker-janus-cloud
 
-Janus Cloud Docker image.
+Docker image for [Janus Cloud](https://github.com/OpenSight/janus-cloud).
 
 ## Getting Started
 
@@ -8,14 +8,32 @@ Janus Cloud Docker image.
 version: "3"
 
 services:
-  signaling:
-    image: registry.gitlab.saver.jp/saver/container/janus-cloud/janus-proxy
+  janus-proxy:
+    image: saverops/janus-cloud
+    command: janus-proxy
     ports:
       - 8288:8288
-  media:
-    image: registry.gitlab.saver.jp/saver/container/janus-cloud/janus-gateway
+  janus:
+    build: janus-gateway
     ports:
       - 8188:8188
+```
+
+Create Dockerfile for backend server like this.
+
+```Dockerfile
+FROM saverops/janus-gateway:0.10.7
+
+USER root
+
+COPY --from=saverops/janus-cloud /opt/janus-cloud /opt/janus-cloud
+COPY janus-sentinel.yml /opt/janus-cloud/conf/janus-sentinel.yml
+RUN pip3 install /opt/janus-cloud
+
+USER janus
+
+EXPOSE 8188
+ENTRYPOINT janus-sentinel & /opt/janus/bin/janus
 ```
 
 ```bash
@@ -28,15 +46,15 @@ $ docker-compose up -d
 version: "3"
 
 services:
-  signaling:
-    image: registry.gitlab.saver.jp/saver/container/janus-cloud/janus-proxy
+  janus-proxy:
+    image: saverops/janus-cloud
+    command: janus-proxy
     ports:
       - 8288:8288
     volumes:
       - ./conf/janus-proxy.plugin.videoroom.yml:/opt/janus-cloud/conf/janus-proxy.plugin.videoroom.yml
-  media:
-    image: registry.gitlab.saver.jp/saver/container/janus-cloud/janus-gateway
-    command: ['-d', '7']
+  janus:
+    build: janus-gateway
     ports:
       - 8188:8188
     volumes:

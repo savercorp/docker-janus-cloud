@@ -1,6 +1,6 @@
-# janus-cloud
+# docker-janus-cloud
 
-Janus Cloud Docker image.
+Docker image for [Janus Cloud](https://github.com/OpenSight/janus-cloud).
 
 ## Getting Started
 
@@ -8,12 +8,12 @@ Janus Cloud Docker image.
 version: "3"
 
 services:
-  signaling:
-    image: registry.gitlab.saver.jp/saver/container/janus-cloud/janus-proxy
+  janus-proxy:
+    image: saverops/janus-proxy
     ports:
       - 8288:8288
-  media:
-    image: registry.gitlab.saver.jp/saver/container/janus-cloud/janus-gateway
+  janus:
+    image: saverops/janus-gateway
     ports:
       - 8188:8188
 ```
@@ -28,14 +28,14 @@ $ docker-compose up -d
 version: "3"
 
 services:
-  signaling:
-    image: registry.gitlab.saver.jp/saver/container/janus-cloud/janus-proxy
+  janus-proxy:
+    image: saverops/janus-proxy
     ports:
       - 8288:8288
     volumes:
       - ./conf/janus-proxy.plugin.videoroom.yml:/opt/janus-cloud/conf/janus-proxy.plugin.videoroom.yml
-  media:
-    image: registry.gitlab.saver.jp/saver/container/janus-cloud/janus-gateway
+  janus:
+    image: saverops/janus-gateway
     command: ['-d', '7']
     ports:
       - 8188:8188
@@ -46,4 +46,15 @@ services:
 
 ```bash
 $ docker-compose up -d
+```
+
+## Build
+
+```bash
+$ docker buildx build --platform=linux/arm64,linux/amd64 --push \
+  -t saverops/janus-proxy \
+  -t saverops/janus-proxy:0.5.0 janus-proxy
+$ docker buildx build --platform=linux/arm64,linux/amd64 --push \
+  -t saverops/janus-gateway \
+  -t saverops/janus-gateway:0.5.0 janus-gateway
 ```

@@ -1,12 +1,15 @@
 version: "3"
 
 services:
+  nignx:
+    build: nginx
+    ports:
+      - 80:80
   janus-proxy:
     image: registry.gitlab.saver.jp/saver/container/janus-cloud/janus-proxy
     build: janus-proxy
     ports:
       - 8288:8288
-      - 80:80
   janus:
     image: registry.gitlab.saver.jp/saver/container/janus-cloud/janus-gateway
     build: janus-gateway

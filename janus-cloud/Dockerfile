@@ -4,7 +4,7 @@ FROM ubuntu:20.04
 RUN apt-get update -y && apt-get install -y python3-pip git
 
 # Install janus-cloud
-RUN git clone https://github.com/OpenSight/janus-cloud.git -b v0.8.0 --depth 1 /opt/janus-cloud && \
+RUN git clone https://github.com/OpenSight/janus-cloud.git --depth 1 /opt/janus-cloud && \
     pip3 install /opt/janus-cloud
 COPY janus-proxy.yml /opt/janus-cloud/conf/janus-proxy.yml
 

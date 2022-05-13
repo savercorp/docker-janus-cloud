@@ -1,8 +1,13 @@
 # docker-janus-cloud
 
-Docker image for [Janus Cloud](https://github.com/OpenSight/janus-cloud).
+Docker image for [Janus Cloud](https://github.com/OpenSight/janus-cloud).  
+Maintained by [Saver Corporation](https://github.com/savercorp/docker-janus-cloud).
 
-## Getting Started
+## Supported tags
+
+- 0.8.0
+
+## How to use this image
 
 ```yaml
 version: "3"
